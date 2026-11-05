@@ -48,6 +48,14 @@ python -m pip install numpy scipy pillow opencv-python
 
 ffmpeg needs `zscale` for phone HDR footage and the `libvpx-vp9` decoder for the face panel. The Homebrew and gyan.dev builds have both. To check another build, run `ffmpeg -filters | grep zscale` and `ffmpeg -decoders | grep libvpx-vp9`.
 
+**Stock clips are optional.** To let Claude search [Pexels](https://www.pexels.com), get a free key at [pexels.com/api](https://www.pexels.com/api/) and add it to your shell profile:
+
+```bash
+echo 'export PEXELS_API_KEY="your-key"' >> ~/.zshrc
+```
+
+Use `~/.bashrc` on most Linux systems. On Windows, run `setx PEXELS_API_KEY "your-key"` in PowerShell. Then restart Claude Code. Everything else works without a key.
+
 The first run downloads the [HyperFrames](https://hyperframes.heygen.com) renderer, a headless browser, and the transcription and background-removal models. Transcription, the cutout and the render then run on your computer.
 
 ## Use it
@@ -63,7 +71,7 @@ It also starts on its own when you say something like "edit my raw footage" or "
 A few things to know:
 
 - **Retakes are fine.** Say a line again when you get it wrong, and Claude keeps the last clean read.
-- **Point it at your own footage.** Real clips of your product or past videos make a better reel than stock. When nothing real fits, it can search [Pexels](https://www.pexels.com) for free stock clips.
+- **Point it at your own footage.** Real clips of your product or past videos make a better reel than stock. When nothing real fits, it can search [Pexels](https://www.pexels.com) for free stock clips, once you've added the free key above.
 - **Want the full-screen look instead?** Ask for full-frame beats, or for the old flat panel, and it will build those instead.
 - **Cutouts take time.** The face panel cuts you out of every frame: about 0.2 seconds per frame on Apple silicon and about 1 second on CPU.
 
@@ -79,6 +87,6 @@ A few things to know:
 
 ## License
 
-[MIT](LICENSE) for the code, docs, sounds and textures. The fonts keep their [SIL Open Font License](assets/fonts) and the Lucide icons keep their [ISC license](assets/icons-LICENSE.txt). HyperFrames is downloaded when the skill runs and has its own license.
+[MIT](LICENSE) for the code, docs, sounds and textures. The fonts keep their [SIL Open Font License](assets/fonts) and the Lucide icons keep their [ISC license](assets/icons-LICENSE.txt). HyperFrames is downloaded when the skill runs and has its own license. Stock clips come from Pexels under the [Pexels License](https://www.pexels.com/license/).
 
-This is an independent project, not affiliated with Anthropic or HeyGen.
+This is an independent project, not affiliated with Anthropic, HeyGen or Pexels.

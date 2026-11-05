@@ -26,6 +26,9 @@ Check: `node -v` (18+) · `ffmpeg -version` · `ffprobe -version` · `python --v
   the first render). Its skills: `npx skills add heygen-com/hyperframes`; `hyperframes init` also links them per project.
 - ffmpeg must have `zscale` for HDR phone footage (`ffmpeg -filters | grep zscale`); the gyan.dev / Homebrew builds do.
 - The face panel also needs ffmpeg's `libvpx-vp9` decoder, to read the cutout's transparency (`ffmpeg -decoders | grep libvpx-vp9`).
+- Stock clips (optional): a free Pexels API key from https://www.pexels.com/api/ in the `PEXELS_API_KEY` environment variable.
+  macOS/Linux: add `export PEXELS_API_KEY="…"` to `~/.zshrc` or `~/.bashrc`. Windows: `setx PEXELS_API_KEY "…"`. Then restart
+  Claude Code. The creator sets this themselves; never ask them to paste the key into the chat.
 First runs download models (Parakeet transcription, background removal); later runs use the cache.
 
 ## 1. Look at the footage
@@ -96,6 +99,9 @@ python <SK>/scripts/strip.py --src "<video>" --edl build/edl.json --out assets/i
 python <SK>/scripts/stock.py search "content creator filming" --tag creator   # look at build/stock/creator.jpg, then:
 python <SK>/scripts/stock.py get <id> <id>                                       # -> assets/broll/px-<id>.mp4 + CREDITS.md
 ```
+- `stock.py search` uses the official Pexels API. With no key it stops and says where to get one: tell the creator, then carry
+  on with real footage instead of waiting. `get` reads the saved results in `build/stock/` and needs no key, so don't repeat a
+  search you already saved (the default limit is 200 requests an hour). Keep `assets/broll/CREDITS.md` with the project.
 - Pick bright, readable, mid-hold moments (never a fade or a dark stretch); clips 0.3–0.5 s longer than their beat.
 - Product sites: capture the official page with headless Chrome (puppeteer-core from the HyperFrames install) or
   download the official mark from the brand's press kit. Never redraw a product UI or a logo.

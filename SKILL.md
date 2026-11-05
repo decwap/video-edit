@@ -1,7 +1,7 @@
 ---
 name: video-edit
 description: Edit raw vertical talking-head footage — a phone recording full of retakes, restarts, mistakes and long pauses — into a polished 9:16 reel (TikTok / Instagram Reels / YouTube Shorts) in a warm paper-editorial style, rendered in Full HD or 2K with HyperFrames. It keeps the best take of every line, tightens the pauses, adds captions, a motion graphic every 2–3 seconds (paper cards, kinetic serif words, a pop-out face panel with the head rising above its edge, giant words behind the speaker's head, split-screen and punch-ins), real B-roll, dynamic transitions and light sound effects. Use it whenever someone shares a raw or face-to-camera video and wants it edited, cut down, cleaned up, "made engaging", given motion graphics, captions, B-roll, transitions or sound effects, asks to remove repeated takes or keep the good takes, says "video-edit", "edit my raw footage" or "edit it like this reel" — even if they never name the skill.
-compatibility: Claude Code (needs a shell and the local filesystem). Node.js 18+ (HyperFrames CLI via npx), ffmpeg + ffprobe with zscale and libvpx-vp9, Python 3.10+ with numpy, scipy, pillow and opencv-python. Windows, macOS or Linux.
+compatibility: Claude Code (needs a shell and the local filesystem). Node.js 18+ (HyperFrames CLI via npx), ffmpeg + ffprobe with zscale and libvpx-vp9, Python 3.10+ with numpy, scipy, pillow and opencv-python. A free Pexels API key (PEXELS_API_KEY) for stock clips only. Windows, macOS or Linux.
 ---
 
 # Video Edit
@@ -21,7 +21,7 @@ Worked example: a 5:26 iPhone recording → 16 takes → a 75 s reel with 34 bea
 
 **Bundled:** `scripts/` — `phrases.py` (read the raw take, spot retakes), `takes.py` (best-take cuts snapped to the
 audio), `aroll.py` (wide + punch intermediates + clean voice; HDR → SDR), `strip.py` (raw→edited proof strip),
-`prep_broll.py` (clips from the creator's own videos), `stock.py` (Pexels B-roll), `screen_replace.py` (app screens on a
+`prep_broll.py` (clips from the creator's own videos), `stock.py` (Pexels B-roll, needs a free API key), `screen_replace.py` (app screens on a
 real phone), `make_panel.py` + `face_panel.py` (the pop-out face panel), `make_matte.py` (DEPTH cut-outs), `video_kit.py` (the scene kit, on `reel_kit.py` + `paper_reel.py`),
 `verify_render.py`, `sync_check.py`, `make_sfx.py` + `make_voice_sfx.py` + `make_textures.py` (regenerate the
 assets). `assets/` — fonts (OFL), original paper textures, 76 original sounds, Lucide icons (ISC, packed into one file, `assets/icons.json`). `references/` — `takes.md`, `style.md`, `motion.md`, `sound.md`, `pipeline.md`,
@@ -68,7 +68,7 @@ Track these as tasks; run long steps (A-roll, mattes, check, render) in the back
    stage), 1 held beat, 1 proof beat, 1 name reveal. For a full-frame reel on request: 3 DEPTH words, transitions varied. Write
    `STORYBOARD.md` and show the table (beat · time · layout · on screen · why) with the clean read.
 6. **B-roll & props** — `prep_broll.py` for the creator's own videos, real product captures, `strip.py` for a
-   raw→edited proof, `stock.py` only when nothing real fits (pipeline.md §4). **No past videos?** Build the "styles
+   raw→edited proof, `stock.py` only when nothing real fits (needs `PEXELS_API_KEY`; pipeline.md §4). **No past videos?** Build the "styles
    like this" and held beats from clips of *this* recording in phone mockups, the raw→edited strip, captures of the
    named product, and stock clips of the named action; never fake someone else's content as the creator's.
 7. **Face panel** — `make_panel.py --src assets/aroll_wide.mp4` as one background job: it fits the panel to this speaker,
