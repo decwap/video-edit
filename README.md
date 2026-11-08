@@ -16,6 +16,21 @@ The panel fits itself to you. It measures your head in the footage and sets the 
 
 ## Install
 
+### As a plugin (updates itself)
+
+In Claude Code, run these two commands:
+
+```text
+/plugin marketplace add decwap/video-edit
+/plugin install video-edit@decwap
+```
+
+In the Claude desktop app, open the **Code** tab, click **+** next to the prompt box, choose **Add plugins**, add the marketplace `decwap/video-edit`, then install **Video Edit**.
+
+**Turn on auto-update** so you get every new version without doing anything: run `/plugin`, open **Marketplaces**, select **decwap**, then select **Enable auto-update**. Claude Code leaves auto-update off for marketplaces outside Anthropic's own until you turn it on. Without it, run `/plugin marketplace update decwap` to update.
+
+### Or clone it into your skills folder
+
 ```bash
 git clone https://github.com/decwap/video-edit ~/.claude/skills/video-edit
 ```
@@ -26,7 +41,7 @@ On Windows, in PowerShell:
 git clone https://github.com/decwap/video-edit "$HOME\.claude\skills\video-edit"
 ```
 
-Then start a new Claude Code session. To update later, run `git pull` in that folder.
+Then start a new Claude Code session. To update later, run `git pull` in that folder. Use one method, not both: if you switch to the plugin, delete this folder first so you don't load two copies.
 
 **Using a Claude account across computers?** Download `video-edit.zip` from the [latest release](https://github.com/decwap/video-edit/releases/latest) and upload it at [claude.ai/customize/skills](https://claude.ai/customize/skills): **+**, then **+ Create skill**, then **Upload a skill**. The skill still runs on your own computer through Claude Code, because it needs your files and the tools below.
 
@@ -66,7 +81,7 @@ Open Claude Code in the folder with your video and ask:
 Edit video.MP4 with /video-edit
 ```
 
-It also starts on its own when you say something like "edit my raw footage" or "remove my repeated takes". Claude asks a few short questions, such as the keyword for your call to action and where your other videos are, shows you a storyboard, then renders `video (Edited).mp4` next to your original.
+If you installed the plugin, the command is `/video-edit:video-edit`. Type `/video-edit` and pick it from the list. It also starts on its own when you say something like "edit my raw footage" or "remove my repeated takes". Claude asks a few short questions, such as the keyword for your call to action and where your other videos are, shows you a storyboard, then renders `video (Edited).mp4` next to your original.
 
 A few things to know:
 

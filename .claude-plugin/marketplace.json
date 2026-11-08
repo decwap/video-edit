@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "decwap",
+  "description": "Claude Code plugins by decwap",
+  "owner": {
+    "name": "decwap",
+    "url": "https://github.com/decwap"
+  },
+  "plugins": [
+    {
+      "name": "video-edit",
+      "source": "./",
+      "description": "Edit raw talking-head footage into a polished 9:16 reel with best takes, captions, a pop-out face panel, motion graphics, B-roll and sound effects.",
+      "category": "video"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "video-edit",
+  "displayName": "Video Edit",
+  "description": "Edit raw talking-head footage into a polished 9:16 reel with best takes, captions, a pop-out face panel, motion graphics, B-roll and sound effects.",
+  "author": {
+    "name": "decwap",
+    "url": "https://github.com/decwap"
+  },
+  "homepage": "https://github.com/decwap/video-edit",
+  "repository": "https://github.com/decwap/video-edit",
+  "license": "MIT",
+  "keywords": ["video", "reels", "tiktok", "shorts", "editing", "captions", "hyperframes"]
+}
