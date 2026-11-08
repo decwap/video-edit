@@ -1,6 +1,6 @@
 ---
 name: video-edit
-description: Edit raw vertical talking-head footage — a phone recording full of retakes, restarts, mistakes and long pauses — into a polished 9:16 reel (TikTok / Instagram Reels / YouTube Shorts) in a warm paper-editorial style, rendered in Full HD or 2K with HyperFrames. It keeps the best take of every line, tightens the pauses, adds captions, a motion graphic every 2–3 seconds (paper cards, kinetic serif words, a pop-out face panel with the head rising above its edge, giant words behind the speaker's head, split-screen and punch-ins), real B-roll, dynamic transitions and light sound effects. Use it whenever someone shares a raw or face-to-camera video and wants it edited, cut down, cleaned up, "made engaging", given motion graphics, captions, B-roll, transitions or sound effects, asks to remove repeated takes or keep the good takes, says "video-edit", "edit my raw footage" or "edit it like this reel" — even if they never name the skill.
+description: Edit raw vertical talking-head footage — a phone recording full of retakes, mistakes and long pauses — into a polished 9:16 reel (TikTok / Reels / Shorts), rendered in Full HD or 2K with HyperFrames. It keeps the best take of every line, tightens the pauses, adds captions, a motion graphic every 2–3 seconds (paper cards, kinetic words, a pop-out face panel, giant words behind the head, punch-ins), real B-roll, transitions and light sound effects, then plays the edit in nine styles (Warm Paper, Midnight Glow, Storybook Doodle, Bold Editorial, Colour Block, Riso Print, Signal Terminal, Sticker Board, Aurora) side by side in a Style Picker and renders only the pick. Use it whenever someone shares a raw or face-to-camera video and wants it edited, cut down, cleaned up, "made engaging", given motion graphics, captions, B-roll, transitions or sound effects, asks to keep the good takes, says "video-edit", "edit my raw footage" or "edit it like this reel" — even if they never name the skill.
 compatibility: Claude Code (needs a shell and the local filesystem). Node.js 18+ (HyperFrames CLI via npx), ffmpeg + ffprobe with zscale and libvpx-vp9, Python 3.10+ with numpy, scipy, pillow and opencv-python. A free Pexels API key (PEXELS_API_KEY) for stock clips only. Windows, macOS or Linux.
 ---
 
@@ -11,6 +11,12 @@ removed), then the speaker alternating with paper cards, real B-roll and small U
 line, three payoff words **behind the speaker's head**, varied transitions (face-card rise/expand, paper cover, whip,
 flip, zoom-through, bar sweep, light-leak flash) and a light action sound on every visible event. Output:
 `<name> (Edited).mp4` (1080×1920 Full HD, or 1440×2560 2K) and a frame sheet, next to the original.
+
+**Every edit comes in nine styles.** The edit is built once (Warm Paper), then `styles.py` restyles it into Midnight Glow,
+Storybook Doodle, Bold Editorial, Colour Block, Riso Print, Signal Terminal, Sticker Board and Aurora — same cut, words,
+timing, footage, motion and sound; only the look changes. A workflow checks and fixes every style, the **Style Picker**
+plays all nine side by side in the browser, the creator picks one, and only the pick is rendered
+(`references/styles.md`).
 
 **The face panel is the default speaker layout:** the speaker stays in a panel on the bottom third of the frame, with the head
 rising above its edge onto a light stage that carries the graphics (`references/style.md`, "Face panel"). It replaces the
@@ -23,12 +29,13 @@ Worked example: a 5:26 iPhone recording → 16 takes → a 75 s reel with 34 bea
 audio), `aroll.py` (wide + punch intermediates + clean voice; HDR → SDR), `strip.py` (raw→edited proof strip),
 `prep_broll.py` (clips from the creator's own videos), `stock.py` (Pexels B-roll, needs a free API key), `screen_replace.py` (app screens on a
 real phone), `make_panel.py` + `face_panel.py` (the pop-out face panel), `make_matte.py` (DEPTH cut-outs), `video_kit.py` (the scene kit, on `reel_kit.py` + `paper_reel.py`),
-`verify_render.py`, `sync_check.py`, `make_sfx.py` + `make_voice_sfx.py` + `make_textures.py` (regenerate the
-assets). `assets/` — fonts (OFL), original paper textures, 76 original sounds, Lucide icons (ISC, packed into one file, `assets/icons.json`). `references/` — `takes.md`, `style.md`, `motion.md`, `sound.md`, `pipeline.md`,
+`verify_render.py`, `sync_check.py`, `styles.py` (the nine styles, the Style Picker, per-style check / snapshots / the
+all-styles sheet), `make_sfx.py` + `make_voice_sfx.py` + `make_textures.py` (regenerate the
+assets). `workflows/check-styles.js` — one agent per style: check, look, fix. `assets/` — fonts (OFL), original paper textures, 76 original sounds, Lucide icons (ISC, packed into one file, `assets/icons.json`). `references/` — `takes.md`, `style.md`, `styles.md`, `motion.md`, `sound.md`, `pipeline.md`,
 `storyboard-skeleton.md`.
 
-Read `references/takes.md` before choosing takes, `style.md` + `motion.md` + `sound.md` before planning, and
-`pipeline.md` before running commands. HyperFrames' own skills (`hyperframes-core`, `hyperframes-cli`) own the
+Read `references/takes.md` before choosing takes, `style.md` + `motion.md` + `sound.md` before planning,
+`pipeline.md` before running commands, and `styles.md` before step 10. HyperFrames' own skills (`hyperframes-core`, `hyperframes-cli`) own the
 composition contract — load them when you debug composition HTML.
 
 ## Defaults (settled — follow unless the user asks otherwise)
@@ -40,7 +47,10 @@ composition contract — load them when you debug composition HTML.
 - **No colour grade, no vignette:** the footage keeps its own colours. HDR phone video is converted to SDR only so it
   doesn't play washed out.
 - No music bed — light action sounds only (`references/sound.md`).
-- Accent teal `#0B7A73` on paper `#F5F1EA`; Instrument Serif Italic + Instrument Sans + JetBrains Mono.
+- **All nine styles, then the creator picks; render only the pick.** Build in Warm Paper (accent teal `#0B7A73` on
+  paper `#F5F1EA`; Instrument Serif Italic + Instrument Sans + JetBrains Mono), then steps 10–11. "Render all" or
+  several letters → render each. If the creator names one style up front ("in Midnight Glow"), build and check only
+  that one and skip the picker. A creator-chosen accent carries into every style.
 - Real visuals only: the creator's own videos, the product's real site/app, this recording's own frames. Never invent
   UI, logos, numbers or stats; keep links off screen when the CTA gates them ("comment X and I'll send it").
 - Final mix −14 LUFS / −1 dBTP; deliver `<name> (Edited).mp4` next to the original; older versions stay in `renders/`.
@@ -48,8 +58,9 @@ composition contract — load them when you debug composition HTML.
 ## Intake (one short form — only what the request and the footage don't answer)
 1. The CTA keyword, if they say "comment X" (ASR often mishears it; confirm the spelling).
 2. Folders or files of their own earlier videos, demos or screen recordings to use as B-roll (strongly preferred).
-3. Accent colour and resolution, if they care (default teal, Full HD).
-4. Storyboard first, or straight to the render? Recommend "storyboard first, then render right away".
+3. Accent colour and resolution, if they care (default teal, Full HD). The style is chosen later, in the picker.
+4. Storyboard first, or straight to the build? Recommend "storyboard first, then build right away" (the render waits
+   for the style pick either way).
 
 ## Workflow
 Track these as tasks; run long steps (A-roll, mattes, check, render) in the background with a log file.
@@ -80,9 +91,25 @@ Track these as tasks; run long steps (A-roll, mattes, check, render) in the back
    voice_dur=voice)`: the end card holds silent after the last word.
 9. **Verify** — `hyperframes lint` → `hyperframes check` until "Check passed" → `snapshot` one frame per beat and read
    every sheet (layout balance, nothing covering the face, captions in the safe zone) → fix → rebuild.
-10. **Render & deliver** — HD or 2K (pipeline.md §7), check the render log for unready media, read a few real frames at the panel's edge
-    (pipeline.md §5), `verify_render.py --sheet --normalize`, `sync_check.py` (+0.0 ms), copy `<name> (Edited).mp4` + frames sheet next to the original. Summarise:
-    what was cut (raw length → edit length, takes kept), what was built, what was inferred (keyword spelling, caption
+10. **Styles** — `python <SK>/scripts/styles.py build <P>` (all nine, seconds). Then check them with the workflow: the
+    Workflow tool with `scriptPath: <SK>/workflows/check-styles.js` and `args: {"project": "<P>", "skill": "<SK>"}`
+    (absolute paths; add `"python": "python"` on Windows). Using this skill counts as asking for that workflow; it runs
+    one agent per style (lint + check, frames against Warm Paper, fixes in `build/style-overrides/<id>.css`). No
+    Workflow tool → `styles.py check <P>` + `styles.py snap <P>` and read each contact sheet yourself. Then
+    `styles.py sheet <P>` → `styles/sheet.jpg`. A style the workflow reports as broken stays in the picker with its issue
+    named, or is fixed first if the creator wants it.
+11. **Pick** — `python <SK>/scripts/styles.py serve <P>` as a background job; open the URL it prints
+    (`http://127.0.0.1:8770/picker.html`, or the next free port) in the Browser pane (Claude Code desktop) and give the creator the same URL (any
+    browser on this computer, while `serve` runs); send `styles/sheet.jpg` too (SendUserFile when you have it). Ask
+    which style (A–I) and **wait** — never render before a pick. The picker's "Use this style" writes
+    `styles/pick.json`; if they say it instead, `styles.py pick <P> <id>`. A change they ask for in one style goes in that
+    style's override file (rebuild + check that style); a change to the edit itself goes back to step 8 and every
+    style is built again.
+12. **Render & deliver** — the pick, from `<P>`: `render styles/<pick>` with an absolute `--output` into `<P>/renders/`
+    (`styles.md`, "Rendering the pick"; HD or 2K per pipeline.md §7), check the render log for unready media, read a few real frames at the panel's edge
+    (pipeline.md §5), `verify_render.py --sheet --normalize`, `sync_check.py` (+0.0 ms), copy `<name> (Edited).mp4` + frames sheet next to the original
+    ("render all" / several picks: one render per style, `<name> (Edited, <Style>).mp4`). Stop `serve`. Summarise:
+    what was cut (raw length → edit length, takes kept), what was built, the style picked, what was inferred (keyword spelling, caption
     corrections), and anything the footage couldn't support.
 
 ## Writing scenes well

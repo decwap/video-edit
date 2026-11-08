@@ -8,7 +8,8 @@ Give Claude your video and it will:
 - **Put you in a face panel** at the bottom of the frame, with your head rising above its edge onto a light stage
 - **Add a new graphic every 2–3 seconds**, with real B-roll from your own videos and captions of 1–3 words
 - **Add light sound effects** on every visible action, from a library of 76 original sounds
-- **Render it** in Full HD or 2K, mixed to −14 LUFS, and check the sound is in sync
+- **Show it in 9 styles** side by side in a Style Picker in your browser, so you choose the look before anything renders
+- **Render the style you pick** in Full HD or 2K, mixed to −14 LUFS, and check the sound is in sync
 
 <p align="center"><img src="docs/panel-layout.svg" width="560" alt="Layout of the reel: a graphic on a light stage, a caption just above the head, and the speaker in a panel on the bottom third with the head rising above the panel's edge"></p>
 
@@ -81,7 +82,7 @@ Open Claude Code in the folder with your video and ask:
 Edit video.MP4 with /video-edit
 ```
 
-If you installed the plugin, the command is `/video-edit:video-edit`. Type `/video-edit` and pick it from the list. It also starts on its own when you say something like "edit my raw footage" or "remove my repeated takes". Claude asks a few short questions, such as the keyword for your call to action and where your other videos are, shows you a storyboard, then renders `video (Edited).mp4` next to your original.
+If you installed the plugin, the command is `/video-edit:video-edit`. Type `/video-edit` and pick it from the list. It also starts on its own when you say something like "edit my raw footage" or "remove my repeated takes". Claude asks a few short questions, such as the keyword for your call to action and where your other videos are, shows you a storyboard, builds the edit, then opens the Style Picker. Pick a style and it renders `video (Edited).mp4` next to your original.
 
 A few things to know:
 
@@ -90,13 +91,34 @@ A few things to know:
 - **Want the full-screen look instead?** Ask for full-frame beats, or for the old flat panel, and it will build those instead.
 - **Cutouts take time.** The face panel cuts you out of every frame: about 0.2 seconds per frame on Apple silicon and about 1 second on CPU.
 
+## Pick your style
+
+Every edit is built once, then shown in nine styles. The cut, your words, the timing, the footage, the motion and the sounds are the same in all of them; only the look changes.
+
+| | Style | Looks like |
+| --- | --- | --- |
+| A | Warm Paper | cream paper, window-light leaves, serif italic words, a teal accent |
+| B | Midnight Glow | near-black with cyan and violet light, a faint grid, glassy cards |
+| C | Storybook Doodle | notebook paper, ruled lines, hand-drawn outlines, handwritten words |
+| D | Bold Editorial | newsprint, halftone corners, tall condensed capitals, black caption bars |
+| E | Colour Block | a flat bold colour that changes every scene, huge capitals |
+| F | Riso Print | ultramarine and fluorescent pink on grainy paper, offset print shadows |
+| G | Signal Terminal | a black screen with scanlines and a lime glow, all monospace |
+| H | Sticker Board | a cream board with a dot grid, every card a sticker with a thick outline |
+| I | Aurora | a pale ground lit by soft lavender, peach and mint light, glass cards |
+
+Before the picker opens, Claude checks every style with one agent per style. Each agent runs the HyperFrames checks, compares the frames with Warm Paper and fixes what breaks. In the picker all nine play in sync. Click one to hear it, then press **Use this style**, or just tell Claude the letter. Claude also sends one image with every style at the same five moments. Want more than one? Say "render all" or "render B and E".
+
+If you already know the look you want, say so ("edit it in Midnight Glow") and Claude skips the picker.
+
 ## What's inside
 
 | Folder | What it holds |
 | --- | --- |
 | `SKILL.md` | The workflow Claude follows |
 | `references/` | Style, motion, sound, take selection and pipeline guides |
-| `scripts/` | Take selection, A-roll, the face panel, B-roll, the scene kit and render checks |
+| `scripts/` | Take selection, A-roll, the face panel, B-roll, the scene kit, the nine styles and the Style Picker, and render checks |
+| `workflows/` | `check-styles`: one agent per style checks and fixes it before you pick |
 | `examples/` | A worked 75-second reel and a minimal face panel scene |
 | `assets/` | Fonts, paper textures, sounds and icons |
 

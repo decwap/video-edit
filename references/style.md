@@ -4,6 +4,10 @@ A vertical talking-head reel in the warm-paper editorial look: the speaker alter
 kinetic words, real B-roll and small UI props, changing every 2–3 s. Swap only the accent colour, the hero chip text
 and the B-roll per video; everything else stays.
 
+This is **Warm Paper**, the look every edit is built in. `styles.py` then restyles the finished edit into eight more
+styles for the creator to pick from (`styles.md`); their own decor (Midnight Glow's light, Signal Terminal's glow,
+halftones, grids) belongs to them and is applied by `styles.py`, never written into the scenes.
+
 ## Canvas & pacing
 - 1080 × 1920 canvas (the composition is always authored at this size; 2K/4K come from the render, pipeline.md §7).
 - Render at the footage's own fps (30 for iPhones, 25 for many cameras).

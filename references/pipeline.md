@@ -149,6 +149,9 @@ npx --yes hyperframes@0.8.106 snapshot --at <one moment per beat, comma-separate
   moves (start it off-canvas).
 
 ## 7. Render (HD or 2K) and deliver
+Render the style the creator picked (`styles.md`): run these from `<P>` with `styles/<pick>` as the project
+(`render styles/<pick> … --output "$PWD/renders/…"`). The commands below show the main project, which is Warm Paper.
+
 **HD (default) — 1080×1920:**
 ```bash
 npx --yes hyperframes@0.8.106 render --fps 30 --quality delivery --crf 14 --output renders/<slug>_master.mp4
